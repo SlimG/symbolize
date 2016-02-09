@@ -13,7 +13,7 @@ EOF
 }
 
 SRC=$1
-DSTDIR=$2
+DSTDIR=${2%/}
 
 # Make sure both parameters are filled in
 if [ -z "$SRC" ] || [ -z "$DSTDIR" ]; then
