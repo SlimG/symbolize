@@ -14,37 +14,37 @@ symbolize SOURCE DESTINATIONFOLDER
 ### Example: SOURCE exists, but DESTINATIONFOLDER does not.
 ```bash
 symbolize ~/.ssh ~/Dropbox/config/$HOSTNAME
-The destination directory "/home/slimg/Dropbox/config/maggie" does not yet exist.
-Do you want to have this folder created for you? (y|n) :
+WARNING: The following folder does not yet exist:
+  /home/slimg/Dropbox/config/maggie
+
+Do you want to create it? (y|n) :
 y
-The source "/home/slimg/Dropbox/config/.ssh" does exist. The destination "/home/slimg/Dropbox/config/maggie/.ssh" does not exist.
-Do you want to move "/home/slimg/Dropbox/config/.ssh" to "/home/slimg/Dropbox/config/maggie/.ssh", and then create "/home/slimg/Dropbox/config/.ssh" as symbolic link towards "/home/slimg/Dropbox/config/maggie/.ssh" ? (y|n) :
-y
-"/home/slimg/Dropbox/config/.ssh" has been moved to "/home/slimg/Dropbox/config/maggie/.ssh".
-Symbolic link "/home/slimg/Dropbox/config/.ssh" pointing toward "/home/slimg/Dropbox/config/maggie/.ssh" has been created.
+
+Running: mkdir -p "/home/slimg/Dropbox/config/maggie"
+Running: mv "/home/slimg/.ssh" "/home/slimg/Dropbox/config/maggie/.ssh"
+Running: ln -s "/home/slimg/Dropbox/config/maggie/.ssh" "/home/slimg/.ssh"
 ```
 
 ### Example: DESTINATIONFOLDER has existing config, but SOURCE does not.
 ```bash
 symbolize ~/.vimrc ~/Dropbox/config/shared
-The source "/home/slimg/Project/testing/.vimrc" does not exist. The destination "/home/slimg/Dropbox/config/shared/.vimrc" does exist.
-Do you want to create "/home/slimg/Project/testing/.vimrc" as a symbolic link towards "/home/slimg/Dropbox/config/shared/.vimrc" ? (y|n) :
-y
-Symbolic link "/home/slimg/Project/testing/.vimrc" pointing toward "/home/slimg/Dropbox/config/shared/.vimrc" has been created.
+Running: ln -s "/home/slimg/Dropbox/config/shared/.vimrc" "/home/slimg/.vimrc"
 ```
 
 ### Example: Both exist.
 ```bash
 symbolize ~/.irssi ~/Dropbox/config/shared
-Both "/home/slimg/.irssi" and "/home/slimg/Dropbox/config/shared/.irssi" exist.
+WARNING: Both exist.
 
 Options:
-  d: Replace "/home/slimg/.irssi" with a symoblic link toward "/home/slimg/Dropbox/config/shared/.irssi".
-    s: Overwrite "/home/slimg/Dropbox/config/shared/.irssi" using "/home/slimg/.irssi", then create "/home/slimg/.irssi" as a symbolic link towards "/home/slimg/Dropbox/config/shared/.irssi".
-      n: Don't do anything.
-      What do you want to do? (d|s|n) :
-      s
-      "/home/slimg/Dropbox/config/shared/.irssi" has been deleted.
-      "/home/slimg/.irssi" has been moved to "/home/slimg/Dropbox/config/shared/.irssi".
-      Symbolic link "/home/slimg/.irssi" pointing toward "/home/slimg/Dropbox/config/shared/.irssi" has been created.
+  d: Sacrifice "/home/slimg/.irssi"
+  s: Sacrifice "/home/slimg/Dropbox/config/shared/.irssi"
+  n: Don't do anything.
+
+What do you want to do? (d|s|n) :
+s
+
+Running: rm -R "/home/slimg/Dropbox/config/shared/.irssi"
+Running: mv "/home/slimg/.irssi" "/home/slimg/Dropbox/config/shared/.irssi"
+Running: ln -s "/home/slimg/Dropbox/config/shared/.irssi" "/home/slimg/.irssi"
 ```

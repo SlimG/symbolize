@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 # Created by Robert Grønning <slimg@iggu.org>
 
@@ -26,21 +26,25 @@ DST=$DSTDIR/$NAME
 
 # Make sure both aren't missing
 if [ ! -e "$SRC" ] && [ ! -e "$DST" ]; then
-    echo "ERROR: Neither \"$SRC\" or \"$DST\" exist."
-    echo "Make sure that at least one of them exist."
-    echo ""
+    echo 'ERROR: Neither exist.'
+    echo
     show_help
     exit 1
 fi
 
 # Make sure DSTDIR exist
 if [ -e "$SRC" ] && [ ! -e "$DSTDIR" ]; then
-    echo "The destination directory \"$DSTDIR\" does not yet exist."
-    echo "Do you want to have this folder created for you? (y|n) :"
+    echo 'WARNING: The following folder does not yet exist:'
+    echo "  $DSTDIR"
+    echo
+    echo 'Do you want to create it? (y|n) :'
     read -r REPLY
     if [ "$REPLY" = y ]; then
-        mkdir -p "$DSTDIR" || exit 1
+        echo
+        echo "Running: mkdir -p \"$DSTDIR\""
+        mkdir -p "$DSTDIR"
     else
+        echo
         echo "\"y\" was not received. Aborting."
         exit 0
     fi
@@ -48,77 +52,66 @@ fi
 
 # Make sure DSTDIR is a directory
 if [ ! -d "$DSTDIR" ]; then
-    echo "ERROR: \"$DSTDIR\" is not a directory."
-    echo ""
+    echo 'ERROR: The following is not a directory:'
+    echo "         $DSTDIR"
+    echo
     show_help
     exit 1
 fi
 
 # Make sure SRC is not a symbolic link
 if [ -h "$SRC" ]; then
-    echo "ERROR: \"$SRC\" is already a symbolic link."
-    echo ""
+    echo 'ERROR: The following is already a symbolic link:'
+    echo "         $SRC"
+    echo
     show_help
     exit 1
 fi
 
 # Create symbolic link when only DST exist
 if [ -e "$DST" ] && [ ! -e "$SRC" ]; then
-    echo "The source \"$SRC\" does not exist. The destination \"$DST\" does exist."
-    echo "Do you want to create \"$SRC\" as a symbolic link towards \"$DST\" ? (y|n) :"
-    read -r REPLY
-    if [ "$REPLY" = y ]; then
-        ln -s "$DST" "$SRC" || exit 1
-        echo "Symbolic link \"$SRC\" pointing toward \"$DST\" has been created."
-        exit 0
-    else
-        echo "\"y\" was not received. Aborting."
-        exit 0
-    fi
+    echo "Running: ln -s \"$DST\" \"$SRC\""
+    ln -s "$DST" "$SRC"
+    exit 0
 fi
 
 # Create symbolic link when only SRC exist
 if [ ! -e "$DST" ] && [ -e "$SRC" ] && [ ! -h "$SRC" ]; then
-    echo "The source \"$SRC\" does exist. The destination \"$DST\" does not exist."
-    echo "Do you want to move \"$SRC\" to \"$DST\", and then create \"$SRC\" as symbolic link towards \"$DST\" ? (y|n) :"
-    read -r REPLY
-    if [ "$REPLY" = y ]; then
-		mv "$SRC" "$DST" || exit 1
-        echo "\"$SRC\" has been moved to \"$DST\"."
-        ln -s "$DST" "$SRC" || exit 1
-        echo "Symbolic link \"$SRC\" pointing toward \"$DST\" has been created."
-        exit 0
-    else
-        echo "\"y\" was not received. Aborting."
-        exit 0
-    fi
+    echo "Running: mv \"$SRC\" \"$DST\""
+	mv "$SRC" "$DST"
+    echo "Running: ln -s \"$DST\" \"$SRC\""
+    ln -s "$DST" "$SRC"
+    exit 0
 fi
 
 # Create symbolic link when both SRC and DST exist
 if [ -e "$DST" ] && [ -e "$SRC" ] && [ ! -h "$SRC" ]; then
-    echo "Both \"$SRC\" and \"$DST\" exist."
-    echo ""
-    echo "Options:"
-    echo "  d: Replace \"$SRC\" with a symoblic link toward \"$DST\"."
-    echo "  s: Overwrite \"$DST\" using \"$SRC\", then create \"$SRC\" as a symbolic link towards \"$DST\"."
+    echo 'WARNING: Both exist.'
+    echo
+    echo 'Options:'
+    echo "  d: Sacrifice \"$SRC\""
+    echo "  s: Sacrifice \"$DST\""
     echo "  n: Don't do anything."
+    echo
     echo "What do you want to do? (d|s|n) :"
     read -r REPLY
     case "$REPLY" in
         d )
-            rm "$SRC" || exit 1
-            echo "\"$SRC\" has been deleted."
-            ln -s "$DST" "$SRC" || exit 1
-            echo "Symbolic link \"$SRC\" pointing toward \"$DST\" has been created."
+            echo
+            echo "Running: rm -R \"$SRC\""
+            rm -R "$SRC"
+            echo "Running: ln -v -s \"$DST\" \"$SRC\""
+            ln -v -s "$DST" "$SRC"
             exit 0
             ;;
         s )
-            rm "$DST" || exit 1
-            echo "\"$DST\" has been deleted."
-            mv "$SRC" "$DST" || exit 1
-            echo "\"$SRC\" has been moved to \"$DST\"."
-            ln -s "$DST" "$SRC" || exit 1
-            echo "Symbolic link \"$SRC\" pointing toward \"$DST\" has been created."
+            echo
+            echo "Running: rm -R \"$DST\""
+            rm -R "$DST"
+            echo "Running: mv \"$SRC\" \"$DST\""
+            mv "$SRC" "$DST"
+            echo "Running: ln -s \"$DST\" \"$SRC\""
+            ln -s "$DST" "$SRC"
             exit 0
             ;;
         * )
