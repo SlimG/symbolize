@@ -1,7 +1,7 @@
 # symbolize
 Use this with ex. [Dropbox](https://www.dropbox.com) to keep your configuration files synced between your workstations using symbolic links
 
-I was inspired by [Ira](https://github.com/lra)'s (https://github.com/lra/mackup), but I needed to have some configuration files shared between all my computers (ex. ~/.vimrc), and some available in Dropbox under their own hostname folders for backup-purpose (ex. ~/.ssh).
+I was inspired by [Ira](https://github.com/lra)'s [mackup](https://github.com/lra/mackup), but I needed to have some configuration files shared between all my computers (ex. ~/.vimrc), and some available in Dropbox under their own hostname folders for backup-purpose (ex. ~/.ssh).
 
 ## Installation
 Put the symbolize script in your $PATH
