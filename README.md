@@ -7,12 +7,12 @@ I was inspired by [Ira](https://github.com/lra)'s (https://github.com/lra/mackup
 Put the symbolize script in your $PATH
 
 ## Usage
-```bash
+```
 symbolize SOURCE DESTINATIONFOLDER
 ```
 
 ### Example: SOURCE exists, but DESTINATIONFOLDER does not.
-```bash
+```
 symbolize ~/.ssh ~/Dropbox/config/$HOSTNAME
 WARNING: The following folder does not yet exist:
   /home/slimg/Dropbox/config/maggie
@@ -26,13 +26,13 @@ Running: ln -s "/home/slimg/Dropbox/config/maggie/.ssh" "/home/slimg/.ssh"
 ```
 
 ### Example: DESTINATIONFOLDER has existing config, but SOURCE does not.
-```bash
+```
 symbolize ~/.vimrc ~/Dropbox/config/shared
 Running: ln -s "/home/slimg/Dropbox/config/shared/.vimrc" "/home/slimg/.vimrc"
 ```
 
 ### Example: Both exist.
-```bash
+```
 symbolize ~/.irssi ~/Dropbox/config/shared
 WARNING: Both exist.
 
