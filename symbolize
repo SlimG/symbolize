@@ -12,7 +12,7 @@ pointing toward the actual data residing in DESTINATIONFOLDER.
 EOF
 }
 
-SRC=$1
+SRC=${1%/}
 DSTDIR=${2%/}
 
 # Make sure both parameters are filled in
