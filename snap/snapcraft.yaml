@@ -1,16 +1,27 @@
-name: my-snap-name # you probably want to 'snapcraft register <name>'
-version: '0.1' # just for humans, typically '1.2+git' or '1.3.2'
-summary: Single-line elevator pitch for your amazing snap # 79 char long summary
+name: symbolize
+version: '1.0'
+summary: Keep your configuration files synced between workstations using symbolic
+  links
 description: |
-  This is my-snap's description. You have a paragraph or two to tell the
-  most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
+  Use this with ex. Dropbox to keep your configuration files synced between
+  your workstations using symbolic links
 
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
-
+  I was inspired by Ira's mackup, but I needed to have some configuration
+  files shared between all my computers (ex. ~/.vimrc), and some available
+  in Dropbox under their own hostname folders for backup-purpose (ex. ~/.ssh).
+  
+  https://github.com/SlimG/symbolize
+type: app
+architectures:
+- all
+confinement: strict
+grade: stable
+apps:
+  symbolize:
+    command: bin/symbolize
 parts:
-  my-part:
-    # See 'snapcraft plugins'
+  symbolize:
     plugin: nil
+    override-build: |
+      mkdir -p $SNAPCRAFT_PART_INSTALL/bin/
+      cp symbolize $SNAPCRAFT_PART_INSTALL/bin/
