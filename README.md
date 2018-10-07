@@ -4,7 +4,11 @@ Use this with ex. [Dropbox](https://www.dropbox.com) to keep your configuration 
 I was inspired by [Ira](https://github.com/lra)'s [mackup](https://github.com/lra/mackup), but I needed to have some configuration files shared between all my computers (ex. ~/.vimrc), and some available in Dropbox under their own hostname folders for backup-purpose (ex. ~/.ssh).
 
 ## Installation
-Put the symbolize script in your $PATH
+Put the symbolize script in your $PATH, or run the following if you have [Snap](https://snapcraft.io/):
+
+```
+snap install symbolize
+```
 
 ## Usage
 ```
